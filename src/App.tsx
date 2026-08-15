@@ -96,7 +96,6 @@ export default function App() {
         activeElectionDaysAway={daysAway}
         userProfile={userProfile}
         onOpenStartPage={handleOpenStartPage}
-        showElectionBanner={activeTab !== 'home'}
       />
 
       {/* Main Content View Container */}

@@ -10,7 +10,6 @@ interface HeaderProps {
   activeElectionDaysAway: number;
   userProfile?: UserVoterProfile | null;
   onOpenStartPage?: () => void;
-  showElectionBanner?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -20,7 +19,6 @@ export const Header: React.FC<HeaderProps> = ({
   activeElectionDaysAway,
   userProfile,
   onOpenStartPage,
-  showElectionBanner = true,
 }) => {
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-xs">
@@ -131,22 +129,20 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Alert / Election Notice Ticker */}
-      {showElectionBanner && (
-        <div className="bg-blue-50/80 border-t border-slate-200 px-4 sm:px-8 py-1.5 text-xs text-blue-950 flex items-center justify-between">
-          <div className="max-w-5xl mx-auto w-full flex items-center justify-between">
-            <div className="flex items-center gap-2 truncate">
-              <AlertCircle className="w-3.5 h-3.5 text-blue-700 shrink-0" />
-              <span className="truncate text-xs">
-                <strong className="text-slate-900">General Election:</strong> Countdown is{' '}
-                <span className="text-orange-600 font-bold">{activeElectionDaysAway} days away</span>. Check poll sites & registration status.
-              </span>
-            </div>
-            <span className="hidden sm:inline text-[11px] text-slate-500 font-mono shrink-0 ml-3">
-              Polls: 6:00 AM – 9:00 PM
+      <div className="bg-blue-50/80 border-t border-slate-200 px-4 sm:px-8 py-1.5 text-xs text-blue-950 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto w-full flex items-center justify-between">
+          <div className="flex items-center gap-2 truncate">
+            <AlertCircle className="w-3.5 h-3.5 text-blue-700 shrink-0" />
+            <span className="truncate text-xs">
+              <strong className="text-slate-900">General Election:</strong> Countdown is{' '}
+              <span className="text-orange-600 font-bold">{activeElectionDaysAway} days away</span>. Check poll sites & registration status.
             </span>
           </div>
+          <span className="hidden sm:inline text-[11px] text-slate-500 font-mono shrink-0 ml-3">
+            Polls: 6:00 AM – 9:00 PM
+          </span>
         </div>
-      )}
+      </div>
     </header>
   );
 };
