@@ -1,0 +1,6 @@
+{
+  "name": "NYC Voter Portal - Board of Elections",
+  "description": "Official New York City Board of Elections companion for new voters with polling place locator, navigation popup, registration guide, voting checklist, deadline alerts, and election reminders.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
