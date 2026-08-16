@@ -22,50 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-xs">
-      {/* Official NYC Top Bar */}
-      <div className="bg-slate-900 px-4 sm:px-8 py-1.5 flex items-center justify-between text-[11px] text-slate-300 font-medium">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-slate-300">City of New York • Official Voter App</span>
-        </div>
-        <div className="flex items-center gap-3 sm:gap-4">
-          {/* Status Indicator Button */}
-          <button
-            onClick={() => {
-              if (onOpenStartPage) onOpenStartPage();
-            }}
-            className="flex items-center gap-1.5 hover:opacity-80 transition cursor-pointer text-[11px]"
-            title="Click to check or change your voter status / VSN"
-          >
-            <span className="text-slate-400 font-medium hidden xs:inline">Status:</span>
-            {userProfile?.status === 'active' ? (
-              <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full inline-block"></span>
-                Active ({userProfile.vsn || 'VSN-847291-NYC'})
-              </span>
-            ) : userProfile?.status === 'inactive' ? (
-              <span className="text-amber-400 font-semibold flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-amber-400 rounded-full inline-block"></span>
-                Inactive ({userProfile.vsn || 'VSN-301928-NYC'})
-              </span>
-            ) : (
-              <span className="text-blue-400 font-semibold flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full inline-block"></span>
-                {userProfile ? 'New Voter Registered' : 'Validate Status / VSN'}
-              </span>
-            )}
-          </button>
 
-          <a
-            href="tel:18668683692"
-            className="flex items-center gap-1 text-orange-400 hover:text-orange-300 font-bold transition"
-            title="NYC BOE Voter Helpline"
-          >
-            <Phone className="w-3 h-3" />
-            <span>1-866-VOTE-NYC</span>
-          </a>
-        </div>
-      </div>
 
       {/* Main Sleek Header Area */}
       <div className="max-w-5xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
@@ -128,21 +85,6 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Alert / Election Notice Ticker */}
-      <div className="bg-blue-50/80 border-t border-slate-200 px-4 sm:px-8 py-1.5 text-xs text-blue-950 flex items-center justify-between">
-        <div className="max-w-5xl mx-auto w-full flex items-center justify-between">
-          <div className="flex items-center gap-2 truncate">
-            <AlertCircle className="w-3.5 h-3.5 text-blue-700 shrink-0" />
-            <span className="truncate text-xs">
-              <strong className="text-slate-900">General Election:</strong> Countdown is{' '}
-              <span className="text-orange-600 font-bold">{activeElectionDaysAway} days away</span>. Check poll sites & registration status.
-            </span>
-          </div>
-          <span className="hidden sm:inline text-[11px] text-slate-500 font-mono shrink-0 ml-3">
-            Polls: 6:00 AM – 9:00 PM
-          </span>
-        </div>
-      </div>
     </header>
   );
 };
