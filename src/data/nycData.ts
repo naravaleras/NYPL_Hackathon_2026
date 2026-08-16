@@ -490,15 +490,6 @@ export const UPCOMING_DEADLINES: ElectionDeadline[] = [
 export const VOTING_CHECKLIST_ITEMS: ChecklistItem[] = [
   // First-Time Voter Essentials
   {
-    id: 'chk-reg-check',
-    category: 'first_time',
-    title: '1. Verify Your Registration Status',
-    description: 'Confirm you are officially registered at your current NYC address at least 10 days before the election.',
-    tip: 'If you recently moved apartments in NYC, update your address with the BOE.',
-    completed: false,
-    essential: true,
-  },
-  {
     id: 'chk-know-id',
     category: 'first_time',
     title: '2. Understand NY Voter ID Rules',
@@ -529,15 +520,6 @@ export const VOTING_CHECKLIST_ITEMS: ChecklistItem[] = [
 
   // Early Voting Checklist
   {
-    id: 'chk-ev-dates',
-    category: 'early_voting',
-    title: '1. Pick One of the 9 Early Voting Days',
-    description: 'Early voting runs for 9 consecutive days before Election Day. Lines are usually shortest on weekday mornings and afternoons.',
-    tip: 'Saturday and Sunday morning hours are also available.',
-    completed: false,
-    essential: true,
-  },
-  {
     id: 'chk-ev-site',
     category: 'early_voting',
     title: '2. Go to Your Assigned Early Voting Site Only',
@@ -545,15 +527,6 @@ export const VOTING_CHECKLIST_ITEMS: ChecklistItem[] = [
     tip: 'Our lookup tool shows your exact Early Voting site in bold.',
     completed: false,
     essential: true,
-  },
-  {
-    id: 'chk-ev-checkin',
-    category: 'early_voting',
-    title: '3. Check In with FastPass / Name at Electronic Poll Pad',
-    description: 'Show your BOE FastPass tag from your mailer or simply state your name and address to the poll clerk.',
-    tip: 'You will sign your electronic poll pad screen with a stylus.',
-    completed: false,
-    essential: false,
   },
 
   // Election Day Checklist
@@ -566,59 +539,14 @@ export const VOTING_CHECKLIST_ITEMS: ChecklistItem[] = [
     completed: false,
     essential: true,
   },
-  {
-    id: 'chk-ed-timeoff',
-    category: 'election_day',
-    title: '2. Claim Paid Time Off from Work (NY Election Law § 3-110)',
-    description: 'New York law grants employees up to 2 hours of paid time off to vote if they do not have 4 consecutive non-working hours between 6 AM and 9 PM.',
-    tip: 'Notify your employer at least 2 working days prior.',
-    completed: false,
-    essential: false,
-  },
-  {
-    id: 'chk-ed-mark',
-    category: 'election_day',
-    title: '3. Mark Your Paper Ballot Accurately',
-    description: 'Fill in the oval completely with the provided black pen. Do not use checkmarks, Xs, or cross-outs.',
-    tip: 'If you make a mistake, do NOT cross it out! Return it to a poll worker for a fresh replacement ballot.',
-    completed: false,
-    essential: true,
-  },
-  {
-    id: 'chk-ed-scan',
-    category: 'election_day',
-    title: '4. Feed Your Ballot into the Optical Scanner',
-    description: 'Slide your ballot into the scanner in any orientation. Wait for the green screen reading "Your vote has been cast!"',
-    tip: 'Get your official "I Voted / Yo Voté" NYC sticker on your way out!',
-    completed: false,
-    essential: true,
-  },
 
   // Know Your Rights
-  {
-    id: 'chk-rights-affidavit',
-    category: 'rights',
-    title: '1. Affidavit Ballot Guarantee',
-    description: 'If poll workers cannot find your name in the poll book, ask for an Affidavit Ballot. They cannot turn you away without one.',
-    tip: 'Your vote will be counted once the BOE verifies your registration record.',
-    completed: false,
-    essential: true,
-  },
   {
     id: 'chk-rights-lang',
     category: 'rights',
     title: '2. Language & Interpreter Assistance Rights',
     description: 'Under the federal Voting Rights Act and NYC mandates, you are entitled to ballots and interpreters in Spanish, Chinese, Bengali, Korean, and Hindi at designated sites.',
     tip: 'You may also bring any friend, child, or assistant into the booth (except your employer or union boss).',
-    completed: false,
-    essential: false,
-  },
-  {
-    id: 'chk-rights-access',
-    category: 'rights',
-    title: '3. Ballot Marking Device (BMD) Accessibility',
-    description: 'Every NYC poll site has an accessible Ballot Marking Device with audio headphones, sip-and-puff, rocker paddle, and large high-contrast display.',
-    tip: 'Any voter can choose to use the BMD.',
     completed: false,
     essential: false,
   },
@@ -915,16 +843,6 @@ export function generateAutoPopulatedChecklist(profile: UserVoterProfile): Check
     tip: `Transit: Subway lines ${pollSite.transit.subwayLines.join(', ')} • ${pollSite.transit.walkMinutes} min walk from ${pollSite.transit.nearestStation}.`,
     completed: false,
     essential: true,
-  });
-
-  items.push({
-    id: 'chk-voting-timeoff',
-    category: 'election_day',
-    title: '⏰ 2. Claim Paid Time Off from Work (NY Election Law § 3-110)',
-    description: 'New York law grants employees up to 2 hours of paid time off to vote if you do not have 4 consecutive non-working hours between 6 AM and 9 PM.',
-    tip: 'Notify your supervisor at least 2 working days before voting.',
-    completed: false,
-    essential: false,
   });
 
   items.push({

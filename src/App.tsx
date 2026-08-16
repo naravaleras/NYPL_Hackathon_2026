@@ -7,7 +7,6 @@ import { VoterOnboarding } from './components/VoterOnboarding';
 import { VoterLandingDashboard } from './components/VoterLandingDashboard';
 import { PollLookup } from './components/PollLookup';
 import { NavigationModal } from './components/NavigationModal';
-import { VoterRegistration } from './components/VoterRegistration';
 import { VotingChecklist } from './components/VotingChecklist';
 import { DeadlinesCalendar } from './components/DeadlinesCalendar';
 import { MachineSimulator } from './components/MachineSimulator';
@@ -133,8 +132,6 @@ export default function App() {
                 }}
               />
             )}
-
-            {activeTab === 'register' && <VoterRegistration />}
 
             {activeTab === 'checklists' && (
               <VotingChecklist

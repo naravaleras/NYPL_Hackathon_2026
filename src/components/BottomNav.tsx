@@ -1,7 +1,7 @@
 import React from 'react';
-import { Home, MapPin, UserPlus, CheckSquare, Calendar, Vote } from 'lucide-react';
+import { Home, MapPin, CheckSquare, Calendar, Vote } from 'lucide-react';
 
-export type TabType = 'home' | 'polls' | 'register' | 'checklists' | 'deadlines' | 'booth';
+export type TabType = 'home' | 'polls' | 'checklists' | 'deadlines' | 'booth';
 
 interface BottomNavProps {
   activeTab: TabType;
@@ -33,12 +33,6 @@ export const BottomNav: React.FC<BottomNavProps> = ({
       icon: MapPin,
     },
     {
-      id: 'register' as TabType,
-      label: 'Register',
-      sublabel: 'Eligibility',
-      icon: UserPlus,
-    },
-    {
       id: 'checklists' as TabType,
       label: 'Checklist',
       sublabel: 'Voting Plan',
@@ -65,7 +59,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
       aria-label="Mobile Navigation Dock"
       className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg pb-[max(0.75rem,env(safe-area-inset-bottom))]"
     >
-      <div className="max-w-lg mx-auto grid grid-cols-6 px-1 py-1">
+      <div className="max-w-lg mx-auto grid grid-cols-5 px-1 py-1">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;

@@ -21,27 +21,32 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenStartPage,
 }) => {
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-xs">
+    <header className="sticky top-0 z-40 bg-blue-900 border-b border-blue-200 shadow-xs">
 
 
       {/* Main Sleek Header Area */}
       <div className="max-w-5xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
         {/* Brand & Seal */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-blue-900 rounded-xl flex items-center justify-center shadow-sm shrink-0">
-            <div className="text-white font-black text-base tracking-tighter">NY</div>
+          <div className="w-12 h-10 rounded-xl overflow-hidden flex flex-col shadow-sm shrink-0 border border-slate-700">
+            <div className="h-1/2 bg-red-600 flex items-center justify-center">
+              <span className="text-white font-black text-[9px] tracking-tight">VOTE</span>
+            </div>
+            <div className="h-1/2 bg-white flex items-center justify-center">
+              <span className="text-red-600 font-black text-[9px] tracking-tight">NYC</span>
+            </div>
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-black text-base sm:text-lg leading-tight uppercase tracking-tight text-slate-900">
+              <h1 className="font-black text-base sm:text-lg leading-tight uppercase tracking-tight text-white">
                 Board of Elections
               </h1>
-              <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200 rounded-md">
-                <ShieldCheck className="w-3 h-3 text-blue-700" />
+              <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-bold bg-blue-800 text-blue-100 border border-blue-700 rounded-md">
+                <ShieldCheck className="w-3 h-3 text-blue-300" />
                 Verified Portal
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 font-medium">
+            <p className="text-[11px] text-slate-300 font-medium">
               Official Voter Gateway & Polling Navigator
             </p>
           </div>

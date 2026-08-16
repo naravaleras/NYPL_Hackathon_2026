@@ -55,8 +55,13 @@ export const VoterOnboarding: React.FC<VoterOnboardingProps> = ({
 
   const [selectedTrack, setSelectedTrack] = useState<'new_voter' | 'existing_voter'>('new_voter');
 
-  // VSN Lookup Form State
-  const [vsnInput, setVsnInput] = useState<string>('');
+  // Voter Details Lookup Form State (Track 2)
+  const [voterLookupForm, setVoterLookupForm] = useState({
+    firstName: '',
+    lastName: '',
+    streetAddress: '',
+    zip: '',
+  });
   const [vsnError, setVsnError] = useState<string | null>(null);
   const [validatedRecord, setValidatedRecord] = useState<VoterRecord | null>(null);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -116,11 +121,10 @@ export const VoterOnboarding: React.FC<VoterOnboardingProps> = ({
     });
   };
 
-  // Perform VSN Lookup
-  const handlePerformVsnLookup = (queryOverride?: string) => {
-    const q = queryOverride !== undefined ? queryOverride : vsnInput;
-    if (!q.trim()) {
-      setVsnError('Please enter a Voter Serial Number (VSN) or voter name.');
+  // Perform Voter Details Lookup
+  const handlePerformVoterLookup = () => {
+    if (!voterLookupForm.firstName.trim() || !voterLookupForm.lastName.trim() || !voterLookupForm.zip.trim()) {
+      setVsnError('Please enter at least your First Name, Last Name, and Zip Code.');
       return;
     }
 
@@ -129,22 +133,41 @@ export const VoterOnboarding: React.FC<VoterOnboardingProps> = ({
 
     setTimeout(() => {
       setIsSearching(false);
-      const record = lookupVsnRecord(q);
+      const f = voterLookupForm.firstName.trim().toLowerCase();
+      const l = voterLookupForm.lastName.trim().toLowerCase();
+      const addr = voterLookupForm.streetAddress.trim().toLowerCase();
+      const z = voterLookupForm.zip.trim();
+
+      const record = MOCK_VSN_RECORDS.find((r) => {
+        const nameLower = r.fullName.toLowerCase();
+        const matchesName = nameLower.includes(f) && nameLower.includes(l);
+        const matchesZip = r.zip === z;
+        const matchesAddr = !addr || r.streetAddress.toLowerCase().includes(addr);
+        return matchesName && matchesZip && matchesAddr;
+      });
 
       if (record) {
         setValidatedRecord(record);
         setStep('vsn_result_review');
       } else {
         setVsnError(
-          `No voter record matching "${q}" was found on the official NYC voter rolls. Would you like to register as a new voter?`
+          `No registered active voter record matching "${voterLookupForm.firstName} ${voterLookupForm.lastName}" at ZIP ${voterLookupForm.zip} was found. Would you like to register as a new voter?`
         );
       }
     }, 350);
   };
 
-  // Select a preset VSN demo card
-  const handleSelectPresetVsn = (record: VoterRecord) => {
-    setVsnInput(record.vsn);
+  // Select a preset demo record
+  const handleSelectPresetRecord = (record: VoterRecord) => {
+    const parts = record.fullName.split(' ');
+    const firstName = parts[0] || '';
+    const lastName = parts.slice(1).join(' ') || '';
+    setVoterLookupForm({
+      firstName,
+      lastName,
+      streetAddress: record.streetAddress,
+      zip: record.zip,
+    });
     setValidatedRecord(record);
     setVsnError(null);
     setStep('vsn_result_review');
@@ -224,10 +247,6 @@ export const VoterOnboarding: React.FC<VoterOnboardingProps> = ({
     <div className="max-w-2xl mx-auto px-4 py-6 sm:py-8 space-y-6">
       {/* Step Indicator Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-900 text-xs font-bold uppercase tracking-wider">
-          <Vote className="w-3.5 h-3.5 text-blue-600" />
-          <span>NYC Voter Onboarding & Verification Portal</span>
-        </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
           Welcome to NYC Voter Navigator
         </h1>
@@ -274,7 +293,7 @@ export const VoterOnboarding: React.FC<VoterOnboardingProps> = ({
                 </div>
               </button>
 
-              {/* Option 2: Existing Voter Track (VSN Validation) */}
+              {/* Option 2: Voter Status) */}
               <button
                 id="btn-track-existing-voter"
                 onClick={() => handleSelectTrack('existing_voter')}
@@ -292,35 +311,24 @@ export const VoterOnboarding: React.FC<VoterOnboardingProps> = ({
                       I am an Existing Voter
                     </h3>
                     <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                      Validate registration using your Voter Serial Number (VSN) or name lookup.
+                      Validate registration and active voter status using your Registered Voter Search.
                     </p>
                   </div>
                 </div>
 
                 <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-700">
-                  <span>Validate VSN Status</span>
+                  <span>Validate Registered Voter Status</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </button>
             </div>
 
-            {/* Reassuring NYC Guarantee Box */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-start gap-3">
-              <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-              <div className="text-xs text-slate-600 space-y-1">
-                <p className="font-semibold text-slate-800">
-                  Official New York City Board of Elections Guidelines
-                </p>
-                <p>
-                  New York voters must register at least <strong>10 days before an election</strong>. Existing active voters do not need photo ID at the polls.
-                </p>
-              </div>
-            </div>
+
           </div>
         </div>
       )}
 
-      {/* STEP 2A: VSN LOOKUP FOR EXISTING VOTERS */}
+      {/* STEP 2A: VOTER DETAILS LOOKUP FOR EXISTING VOTERS */}
       {step === 'vsn_lookup' && (
         <div className="space-y-4 animate-in fade-in duration-300">
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
@@ -332,49 +340,88 @@ export const VoterOnboarding: React.FC<VoterOnboardingProps> = ({
                 ← Back to Options
               </button>
               <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
-                Track 2: VSN Verification
+                Track 2: Voter Verification
               </span>
             </div>
 
             <div className="space-y-1">
               <h2 className="text-xl font-bold text-slate-900">
-                Validate Your Voter Serial Number (VSN)
+                Check Your Active Voter Status
               </h2>
               <p className="text-xs text-slate-500">
-                Enter your 9-digit NYC Voter Serial Number found on your BOE mailer, or search by your legal name.
+                Enter your First Name, Last Name, Street Address, and Zip Code to check if you are a registered or active voter.
               </p>
             </div>
 
-            {/* VSN Input Bar */}
-            <div className="space-y-2">
-              <label htmlFor="vsn-input" className="block text-xs font-bold uppercase tracking-wider text-slate-700">
-                Voter Serial Number (VSN) or Full Name
-              </label>
-              <div className="flex flex-col sm:flex-row gap-2">
-                <div className="relative flex-1">
-                  <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            {/* Voter Details Form */}
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    First Name *
+                  </label>
                   <input
-                    id="vsn-input"
                     type="text"
-                    value={vsnInput}
-                    onChange={(e) => setVsnInput(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handlePerformVsnLookup()}
-                    placeholder="e.g. VSN-847291-NYC or Taylor Rivera"
-                    className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 font-mono"
+                    value={voterLookupForm.firstName}
+                    onChange={(e) => setVoterLookupForm({ ...voterLookupForm, firstName: e.target.value })}
+                    placeholder="e.g. Taylor"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={voterLookupForm.lastName}
+                    onChange={(e) => setVoterLookupForm({ ...voterLookupForm, lastName: e.target.value })}
+                    placeholder="e.g. Rivera"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    Street Address
+                  </label>
+                  <input
+                    type="text"
+                    value={voterLookupForm.streetAddress}
+                    onChange={(e) => setVoterLookupForm({ ...voterLookupForm, streetAddress: e.target.value })}
+                    placeholder="e.g. 310 East 20th Street"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    Zip Code *
+                  </label>
+                  <input
+                    type="text"
+                    value={voterLookupForm.zip}
+                    onChange={(e) => setVoterLookupForm({ ...voterLookupForm, zip: e.target.value })}
+                    placeholder="e.g. 10003"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-2">
                 <button
-                  id="btn-submit-vsn-lookup"
-                  onClick={() => handlePerformVsnLookup()}
+                  id="btn-submit-voter-lookup"
+                  onClick={() => handlePerformVoterLookup()}
                   disabled={isSearching}
-                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-xs transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   {isSearching ? (
-                    <span>Validating...</span>
+                    <span>Checking Voter Rolls...</span>
                   ) : (
                     <>
                       <ShieldCheck className="w-4 h-4" />
-                      <span>Verify Status</span>
+                      <span>Check Registration & Status</span>
                     </>
                   )}
                 </button>
@@ -397,15 +444,15 @@ export const VoterOnboarding: React.FC<VoterOnboardingProps> = ({
             </div>
 
             {/* Quick Demo Testing Records */}
-            <div className="space-y-2 pt-2 border-t border-slate-100">
+            <div className="space-y-2 pt-4 border-t border-slate-100">
               <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                Quick Test with Sample Voter Records:
+                Quick Test with Sample Registered Voter Records:
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {MOCK_VSN_RECORDS.slice(0, 4).map((rec) => (
                   <button
                     key={rec.vsn}
-                    onClick={() => handleSelectPresetVsn(rec)}
+                    onClick={() => handleSelectPresetRecord(rec)}
                     className="p-2.5 rounded-xl border border-slate-200 hover:border-emerald-400 bg-slate-50 hover:bg-emerald-50/40 text-left transition flex items-center justify-between cursor-pointer"
                   >
                     <div>
@@ -422,7 +469,7 @@ export const VoterOnboarding: React.FC<VoterOnboardingProps> = ({
                         )}
                       </div>
                       <div className="text-[10px] text-slate-500 font-mono mt-0.5">
-                        {rec.vsn} • {rec.borough}
+                        {rec.streetAddress}, {rec.zip}
                       </div>
                     </div>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-400" />

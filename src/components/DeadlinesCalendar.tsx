@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 
 export const DeadlinesCalendar: React.FC = () => {
-  const [filter, setFilter] = useState<'all' | 'registration' | 'early_voting' | 'election_day' | 'absentee'>('all');
+  const [filter, setFilter] = useState<'all'>('all');
   const [selectedDeadline, setSelectedDeadline] = useState<ElectionDeadline | null>(null);
 
   // Reminders state
@@ -183,28 +183,7 @@ export const DeadlinesCalendar: React.FC = () => {
         </div>
       )}
 
-      {/* Filter Tabs */}
-      <div className="bg-white rounded-2xl p-1.5 border border-slate-200 shadow-sm flex items-center gap-1 overflow-x-auto">
-        {[
-          { id: 'all', label: 'All Deadlines' },
-          { id: 'registration', label: 'Registration' },
-          { id: 'early_voting', label: 'Early Voting' },
-          { id: 'election_day', label: 'Election Day' },
-          { id: 'absentee', label: 'Mail / Absentee' },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setFilter(tab.id as any)}
-            className={`py-2 px-3 rounded-xl text-xs font-bold transition whitespace-nowrap ${
-              filter === tab.id
-                ? 'bg-blue-900 text-white shadow-xs'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+
 
       {/* Deadlines List */}
       <div className="space-y-3">
