@@ -53,7 +53,7 @@ export const VotingChecklist: React.FC<VotingChecklistProps> = ({
   });
 
   const [activeCategory, setActiveCategory] = useState<
-    'all' | 'first_time' | 'inactive_recovery' | 'accessibility' | 'early_voting' | 'election_day' | 'rights'
+    'all' | 'inactive_recovery' | 'accessibility' | 'early_voting' | 'rights'
   >('all');
   const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
 
@@ -254,17 +254,6 @@ export const VotingChecklist: React.FC<VotingChecklistProps> = ({
         )}
 
         <button
-          onClick={() => setActiveCategory('first_time')}
-          className={`py-2 px-3 rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
-            activeCategory === 'first_time'
-              ? 'bg-blue-900 text-white shadow-xs'
-              : 'text-slate-600 hover:bg-slate-100'
-          }`}
-        >
-          Registration & ID
-        </button>
-
-        <button
           onClick={() => setActiveCategory('early_voting')}
           className={`py-2 px-3 rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
             activeCategory === 'early_voting'
@@ -275,16 +264,7 @@ export const VotingChecklist: React.FC<VotingChecklistProps> = ({
           Early Voting
         </button>
 
-        <button
-          onClick={() => setActiveCategory('election_day')}
-          className={`py-2 px-3 rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
-            activeCategory === 'election_day'
-              ? 'bg-blue-900 text-white shadow-xs'
-              : 'text-slate-600 hover:bg-slate-100'
-          }`}
-        >
-          Election Day
-        </button>
+
       </div>
 
       {/* NY Voter ID Mythbusting Alert */}

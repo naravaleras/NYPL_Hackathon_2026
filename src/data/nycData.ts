@@ -488,36 +488,6 @@ export const UPCOMING_DEADLINES: ElectionDeadline[] = [
 ];
 
 export const VOTING_CHECKLIST_ITEMS: ChecklistItem[] = [
-  // First-Time Voter Essentials
-  {
-    id: 'chk-know-id',
-    category: 'first_time',
-    title: '2. Understand NY Voter ID Rules',
-    description: 'In New York State, already registered voters do NOT need to present a photo ID. Only first-time voters who registered by mail without SSN/DMV info may need proof of address.',
-    tip: 'Acceptable backup ID: NYS Driver License, IDNYC, student ID, bank statement, or utility bill with your name & address.',
-    completed: false,
-    essential: true,
-    docRequirement: 'No ID needed for 98% of voters; keep IDNYC or utility bill in bag just in case.',
-  },
-  {
-    id: 'chk-find-poll',
-    category: 'first_time',
-    title: '3. Look Up Your Polling Place & Save Route',
-    description: 'Note that your Early Voting site may be in a different building than your Election Day site.',
-    tip: 'Use our interactive Lookup tab to view accessible entrances, subway lines, and live navigation.',
-    completed: false,
-    essential: true,
-  },
-  {
-    id: 'chk-sample-ballot',
-    category: 'first_time',
-    title: '4. Preview Your Sample Ballot',
-    description: 'Check the candidates and ballot proposals for your specific Election and Assembly District.',
-    tip: 'You can bring notes or our digital voting plan into the booth with you!',
-    completed: false,
-    essential: false,
-  },
-
   // Early Voting Checklist
   {
     id: 'chk-ev-site',
@@ -525,17 +495,6 @@ export const VOTING_CHECKLIST_ITEMS: ChecklistItem[] = [
     title: '2. Go to Your Assigned Early Voting Site Only',
     description: 'Unlike some other states, in NYC you must vote at your specifically designated Early Voting site for your address.',
     tip: 'Our lookup tool shows your exact Early Voting site in bold.',
-    completed: false,
-    essential: true,
-  },
-
-  // Election Day Checklist
-  {
-    id: 'chk-ed-time',
-    category: 'election_day',
-    title: '1. Plan Your Voting Time (6:00 AM – 9:00 PM)',
-    description: 'NYC polls are open continuously for 15 hours. If you are in line at 8:59 PM, the poll workers MUST let you vote.',
-    tip: 'Peak rush hours are 7:30–9:00 AM and 5:30–7:30 PM. Midday is fastest!',
     completed: false,
     essential: true,
   },
